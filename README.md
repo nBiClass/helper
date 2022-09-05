@@ -38,6 +38,7 @@ var_dump($number);
 |2|`url_md5($data, $key = 'HelloWord', $expire = 0)`|url或者字符串加密
 |3|`url_decrypt($data, $key = 'HelloWord')`|url或者字符串解密
 |4|`filter_nickname($nickname)`|过滤微信昵称，颜文字，手机表情文字
+|5|`complete_number($num = 0, $leng = '3')`|按长度补全数字，不足的用 0  补足
 
 
 >**数组树形结构**

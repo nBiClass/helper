@@ -128,6 +128,23 @@ class helper {
         }
     }
 
+
+    /**
+     * 按长度补全数字，不足的用 0  补足
+     * @param int $num
+     * @param string $leng
+     * @return float|int|string
+     */
+    public static function complete_number($num = 0, $leng = '3') {
+        $num = abs(intval($num));
+        if (mb_strlen($num) < $leng) {
+            $a = str_repeat('0', $leng - mb_strlen($num));
+            $num = $a . $num;
+        }
+        return $num;
+    }
+
+
     /**
      * 发送请求
      *  $url：地址
