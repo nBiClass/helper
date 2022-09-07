@@ -36,6 +36,139 @@ namespace longzy;
 
 class helper {
 
+
+    /**
+     * 从身份证号码中获取基础信息，年月份，省市区
+     * @param $IDCard
+     * @return array|false
+     */
+    public static function get_idcard_info($IDCard) {
+        if (!preg_match("/^[1-9]([0-9a-zA-Z]{17}|[0-9a-zA-Z]{14})$/", $IDCard)) {
+            return false;
+        } else {
+            if (strlen($IDCard) == 18) {
+                $tyear = intval(substr($IDCard, 6, 4));
+                $tmonth = intval(substr($IDCard, 10, 2));
+                $tday = intval(substr($IDCard, 12, 2));
+                $tdate = $tyear . "-" . $tmonth . "-" . $tday;
+            } elseif (strlen($IDCard) == 15) {
+                $tyear = intval("19" . substr($IDCard, 6, 2));
+                $tmonth = intval(substr($IDCard, 8, 2));
+                $tday = intval(substr($IDCard, 10, 2));
+                $tdate = $tyear . "-" . $tmonth . "-" . $tday;
+            }
+        }
+
+        $result['year'] = $tyear;//生日日期
+        $result['month'] = $tmonth;//生日日期
+        $result['day'] = $tday;//生日日期
+        $result['birthday'] = $tdate;//生日日期
+        return $result;
+    }
+
+
+    /**
+     * 文件大小并格式化,默认输入是 Bytes
+     * @param $size
+     * @return string
+     */
+    public static function file_format_size($size) {
+        $sizes = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB");
+        if ($size == 0) {
+            return ('n/a');
+        } else {
+            return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . $sizes[$i]);
+        }
+    }
+
+
+    /**
+     * 冒泡排序（数组排序） 从小到大
+     * @param $array
+     * @return false|mixed
+     */
+    public static function array_asc($array) {
+        $count = count($array);
+        if ($count <= 0) return false;
+        for ($i = 0; $i < $count; $i++) {
+            for ($j = $count - 1; $j > $i; $j--) {
+                if ($array[$j] < $array[$j - 1]) {
+                    $tmp = $array[$j];
+                    $array[$j] = $array[$j - 1];
+                    $array[$j - 1] = $tmp;
+                }
+            }
+        }
+        return $array;
+    }
+
+    /**
+     * 获取当前页面URL
+     * @return string
+     */
+//    public static function get_page_url() {
+//        $pageURL = 'http';
+//        if (!empty($_SERVER['HTTPS'])) {
+//            $pageURL .= 's';
+//        }
+//        $pageURL .= '://';
+//        if ($_SERVER['SERVER_PORT'] != 80 || $_SERVER['SERVER_PORT'] == '') {
+//            $pageURL .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
+//        } else {
+//            $pageURL .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+//        }
+//        return $pageURL;
+//    }
+
+    /**
+     * 获取文件尾缀
+     * @param $filename
+     * @return false|string|string[]
+     */
+    public static function file_extension($filename) {
+        if (mb_strlen($filename) >= 3) {
+            $myext = substr($filename, strrpos($filename, '.'));
+            return str_replace('.', '', $myext);
+        } else {
+            return $filename;
+        }
+    }
+
+    /**
+     * 将字符串指定位置替换为知道符号，类似处理手机号中间四位 **** 代替
+     * @param $str  要替换的字符串
+     * @param int $star 开始位置，下标从0开始
+     * @param int $leng 替换几个
+     * @param string $mark 替换符号
+     * @return string
+     */
+    public static function str_mark($str, $star = 3, $leng = 4, $mark = '*') {
+        $star = abs(intval($star));
+        $leng = abs(intval($leng));
+
+        $a = mb_substr($str, 0, $star);
+        $b = str_repeat($mark, $leng);
+        $c = mb_substr($str, $star + $leng);
+        return $a . $b . $c;
+    }
+
+
+    /**
+     * 打乱数组，并且保留键名
+     * @param array $arr
+     */
+    public static function array_shuffle(array &$arr) {
+        if (!empty($arr)) {
+            $key = array_keys($arr);
+            shuffle($key);
+            foreach ($key as $value) {
+                $arr2[$value] = $arr[$value];
+            }
+            $arr = $arr2;
+        }
+    }
+
+
     /**
      * 获取文件下所有文件
      * @param $arr_file 返回结果
@@ -247,7 +380,7 @@ class helper {
      * @param $nickname
      * @return string
      */
-    public static function filter_nickname($nickname) {
+    public static function str_filter($nickname) {
         $nickname = preg_replace('/[\x{1F600}-\x{1F64F}]/u', '', $nickname);
 
         $nickname = preg_replace('/[\x{1F300}-\x{1F5FF}]/u', '', $nickname);

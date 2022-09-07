@@ -40,6 +40,13 @@ var_dump($number);
 |4|`filter_nickname($nickname)`|过滤微信昵称，颜文字，手机表情文字
 |5|`complete_number($num = 0, $leng = '3')`|按长度补全数字，不足的用 0  补足
 
+>**数组操作**
+
+| |方法名|说明
+|----|----|----
+|1|`array_shuffle(array &$arr)`|打乱数组，并且保留键名
+
+
 
 >**数组树形结构**
 
