@@ -23,12 +23,23 @@ var_dump($number);
 | |方法名|说明
 |----|----|----
 |1|`https_request($url, $data = null, $header = null)`|发起网络请求CURL
+|2|`get_page_url()`|获取当前页面完整URL
+
+>**身份证号码信息读取**
+
+| |方法名|说明
+|----|----|----
+|1|`get_idcard_info($IDCard)`|身份证号码信息读取
+
+
 >**文件操作**
 
 | |方法名|说明
 |----|----|----
 |1|`scan_dir(&$arr_file, $directory)`|获取文件下所有文件
 |2|`del_dir($path)`|删除文件或者目录，包含目录下文件
+|2|`file_extension($filename)`|获取文件尾缀
+|2|`file_format_size($size)`|获取文件尾缀
 
 >**字符串操作**
 
@@ -37,15 +48,15 @@ var_dump($number);
 |1|`make_number($lenth = '9', $pk = '')`|生成指定长度的纯数字编号
 |2|`url_md5($data, $key = 'HelloWord', $expire = 0)`|url或者字符串加密
 |3|`url_decrypt($data, $key = 'HelloWord')`|url或者字符串解密
-|4|`filter_nickname($nickname)`|过滤微信昵称，颜文字，手机表情文字
-|5|`complete_number($num = 0, $leng = '3')`|按长度补全数字，不足的用 0  补足
+|4|`str_filter($nickname)`|过滤微信昵称，颜文字，手机表情文字
+|5|`str_mark($str, $star = 3, $leng = 4, $mark = '*')`|将字符串指定位置替换为知道符号，类似处理手机号中间四位 **** 代替
+|6|`complete_number($num = 0, $leng = '3')`|按长度补全数字，不足的用 0  补足
 
 >**数组操作**
 
 | |方法名|说明
 |----|----|----
-|1|`array_shuffle(array &$arr)`|打乱数组，并且保留键名
-
+|1|`array_asc($array) `|冒泡排序（数组排序） 从小到大
 
 
 >**数组树形结构**

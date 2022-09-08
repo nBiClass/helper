@@ -50,20 +50,38 @@ class helper {
                 $tyear = intval(substr($IDCard, 6, 4));
                 $tmonth = intval(substr($IDCard, 10, 2));
                 $tday = intval(substr($IDCard, 12, 2));
-                $tdate = $tyear . "-" . $tmonth . "-" . $tday;
+                $tdate = $tyear . "-" . self::complete_number($tmonth,2). "-" . self::complete_number($tday,2);
             } elseif (strlen($IDCard) == 15) {
                 $tyear = intval("19" . substr($IDCard, 6, 2));
                 $tmonth = intval(substr($IDCard, 8, 2));
                 $tday = intval(substr($IDCard, 10, 2));
-                $tdate = $tyear . "-" . $tmonth . "-" . $tday;
+                $tdate = $tyear . "-" . self::complete_number($tmonth,2) . "-" . self::complete_number($tday,2);
             }
         }
 
-        $result['year'] = $tyear;//生日日期
-        $result['month'] = $tmonth;//生日日期
-        $result['day'] = $tday;//生日日期
-        $result['birthday'] = $tdate;//生日日期
-        return $result;
+        require_once __DIR__.'/regionCode.php';
+
+        $code=substr($IDCard,0,6);
+        if(isset($regionCode[$code])){
+            $region=$regionCode[$code];
+            $region=explode(',',$region);
+            $info['country']=$region[0];
+            $info['province']=$region[1];
+            $info['city']=@$region[2];
+            $info['area']=@$region[3];
+        }else{
+            $info['country']='';
+            $info['province']='';
+            $info['city']='';
+            $info['area']='';
+        }
+        var_dump($code);
+
+        $info['year'] = $tyear;
+        $info['month'] = $tmonth;
+        $info['day'] = $tday;
+        $info['birthday'] = $tdate;
+        return $info;
     }
 
 
@@ -106,19 +124,19 @@ class helper {
      * 获取当前页面URL
      * @return string
      */
-//    public static function get_page_url() {
-//        $pageURL = 'http';
-//        if (!empty($_SERVER['HTTPS'])) {
-//            $pageURL .= 's';
-//        }
-//        $pageURL .= '://';
-//        if ($_SERVER['SERVER_PORT'] != 80 || $_SERVER['SERVER_PORT'] == '') {
-//            $pageURL .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
-//        } else {
-//            $pageURL .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-//        }
-//        return $pageURL;
-//    }
+    public static function get_page_url() {
+        $pageURL = 'http';
+        if (!empty($_SERVER['HTTPS'])) {
+            $pageURL .= 's';
+        }
+        $pageURL .= '://';
+        if ($_SERVER['SERVER_PORT'] != 80 || $_SERVER['SERVER_PORT'] == '') {
+            $pageURL .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
+        } else {
+            $pageURL .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        }
+        return $pageURL;
+    }
 
     /**
      * 获取文件尾缀
